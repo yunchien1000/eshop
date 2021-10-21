@@ -24,7 +24,7 @@
         <table class='table table-hover table-responsive table-bordered'>
             <tr>
                 <td>Name</td>
-                <td><input type='text' name='name' class='form-control' /></td>
+                <td><input type='text' name='name' class='form-control'/></td>
             </tr>
             <tr>
                 <td>Description</td>
@@ -32,12 +32,25 @@
             </tr>
             <tr>
                 <td>Price</td>
-                <td><input type='text' name='price' class='form-control' /></td>
+                <td><input type='number' name='price' class='form-control'/></td>
             </tr>
+            <tr>
+                <td>Manufacture Date</td>
+                <td><input type='date' name='facture' class='form-control'/></td>
+            </tr>
+            <tr>
+                <td>Expired Date</td>
+                <td><input type='date' name='edate' class='form-control'/></td>
+            </tr>
+            <tr>
+                <td>Promotion Price</td>
+                <td><input type='number' name='price' class='form-control'/></td>
+            </tr>
+            
             <tr>
                 <td></td>
                 <td>
-                    <input type='submit' value='Save' class='btn btn-primary' />
+                    <input type='submit' value='Save' class='btn btn-primary'/>
                     <a href='index.php' class='btn btn-danger'>Back to read products</a>
                 </td>
             </tr>
@@ -50,17 +63,23 @@
         include 'config/database.php';
         try {
             // insert query
-            $query = "INSERT INTO products SET name=:name, description=:description, price=:price, created=:created";
+            $query = "INSERT INTO products SET name=:name, description=:description, price=:price, manufacture_date=:manufacture_date, edate=:edate, pprice=:pprice, created=:created";
             // prepare query for execution
             $stmt = $con->prepare($query);
             // posted values
             $name = htmlspecialchars(strip_tags($_POST['name']));
             $description = htmlspecialchars(strip_tags($_POST['description']));
             $price = htmlspecialchars(strip_tags($_POST['price']));
+            $manufacture_date = htmlspecialchars(strip_tags($_POST['date']));
+            $edate = htmlspecialchars(strip_tags($_POST['date']));
+            $pprice = htmlspecialchars(strip_tags($_POST['pprice']));
             // bind the parameters
             $stmt->bindParam(':name', $name);
             $stmt->bindParam(':description', $description);
-            $stmt->bindParam(':price', $price);
+            $stmt->bindParam(':price',$price);
+            $stmt->bindParam(':manufacture_date', $manufacture_date);
+            $stmt->bindParam(':edate', $edate);
+            $stmt->bindParam(':pprice', $pprice);
             // specify when this record was inserted to the database
             $created = date('Y-m-d H:i:s');
             $stmt->bindParam(':created', $created);
