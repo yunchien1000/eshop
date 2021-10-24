@@ -44,7 +44,7 @@
             </tr>
             <tr>
                 <td>Promotion Price</td>
-                <td><input type='number' name='price' class='form-control'/></td>
+                <td><input type='number' name='pprice' class='form-control'/></td>
             </tr>
             
             <tr>
@@ -70,8 +70,8 @@
             $name = htmlspecialchars(strip_tags($_POST['name']));
             $description = htmlspecialchars(strip_tags($_POST['description']));
             $price = htmlspecialchars(strip_tags($_POST['price']));
-            $manufacture_date = htmlspecialchars(strip_tags($_POST['date']));
-            $edate = htmlspecialchars(strip_tags($_POST['date']));
+            $manufacture_date = htmlspecialchars(strip_tags($_POST['manufacture_date']));
+            $edate = htmlspecialchars(strip_tags($_POST['edate']));
             $pprice = htmlspecialchars(strip_tags($_POST['pprice']));
             // bind the parameters
             $stmt->bindParam(':name', $name);
