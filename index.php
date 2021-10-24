@@ -45,7 +45,7 @@
             echo "<th>Price</th>";
             echo "<th>Promotion Price</th>";
             echo "<th>Manufacture date</th>";
-            echo "<th>Expired_date</th>";
+            echo "<th>Expired Date</th>";
             echo "<th>Action</th>";
             echo "</tr>";
 
