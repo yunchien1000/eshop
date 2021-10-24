@@ -36,7 +36,7 @@
             </tr>
             <tr>
                 <td>Manufacture Date</td>
-                <td><input type='date' name='facture' class='form-control'/></td>
+                <td><input type='date' name='manufacture_date' class='form-control'/></td>
             </tr>
             <tr>
                 <td>Expired Date</td>
@@ -44,7 +44,7 @@
             </tr>
             <tr>
                 <td>Promotion Price</td>
-                <td><input type='number' name='pprice' class='form-control'/></td>
+                <td><input type='number' name='promotion_price' class='form-control'/></td>
             </tr>
             
             <tr>
@@ -63,7 +63,7 @@
         include 'config/database.php';
         try {
             // insert query
-            $query = "INSERT INTO products SET name=:name, description=:description, price=:price, manufacture_date=:manufacture_date, edate=:edate, pprice=:pprice, created=:created";
+            $query = "INSERT INTO products SET name=:name, description=:description, price=:price, manufacture_date=:manufacture_date, edate=:edate, promotion_price=:promotion_price, created=:created";
             // prepare query for execution
             $stmt = $con->prepare($query);
             // posted values
@@ -72,14 +72,14 @@
             $price = htmlspecialchars(strip_tags($_POST['price']));
             $manufacture_date = htmlspecialchars(strip_tags($_POST['manufacture_date']));
             $edate = htmlspecialchars(strip_tags($_POST['edate']));
-            $pprice = htmlspecialchars(strip_tags($_POST['pprice']));
+            $promotion_price = htmlspecialchars(strip_tags($_POST['promotion_price']));
             // bind the parameters
             $stmt->bindParam(':name', $name);
             $stmt->bindParam(':description', $description);
             $stmt->bindParam(':price',$price);
             $stmt->bindParam(':manufacture_date', $manufacture_date);
             $stmt->bindParam(':edate', $edate);
-            $stmt->bindParam(':pprice', $pprice);
+            $stmt->bindParam(':promotion_price', $promotion_price);
             // specify when this record was inserted to the database
             $created = date('Y-m-d H:i:s');
             $stmt->bindParam(':created', $created);

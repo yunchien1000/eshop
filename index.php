@@ -66,7 +66,7 @@
                 echo "<a href='update.php?id={$id}' class='btn btn-primary m-2'>Edit</a>";
 
                 // we will use this links on next part of this post
-                echo "<a href='#' onclick='delete_user({$id});'  class='btn btn-danger'>Delete</a>";
+                echo "<a href='#' onclick='delete_user({$id});'  class='btn btn-danger m-2'>Delete</a>";
                 echo "</td>";
                 echo "</tr>";
             }
