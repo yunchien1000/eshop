@@ -71,7 +71,7 @@
             $description = htmlspecialchars(strip_tags($_POST['description']));
             $price = htmlspecialchars(strip_tags($_POST['price']));
             $manufacture_date = date(strip_tags($_POST['manufacture_date']));
-            $edate = date(strip_tags($_POST['edate']));
+            $edate = date(strip_tags($_POST['expired_date']));
             $promotion_price = htmlspecialchars(strip_tags($_POST['promotion_price']));
             // bind the parameters
             $stmt->bindParam(':name', $name);
