@@ -12,7 +12,7 @@
     <!-- container -->
     <div class="container">
         <div class="page-header">
-            <h1>Read Product</h1>
+            <h1>Read One Product</h1>
         </div>
 
         <!-- PHP read one record will be here -->
