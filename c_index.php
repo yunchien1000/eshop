@@ -22,7 +22,7 @@
         // delete message prompt will be here
 
         // select all data
-        $query = "SELECT username, password, first_name, last_name, gender, date_of_birth, registration_date_time, account_status FROM customer ORDER BY username DESC";
+        $query = "SELECT username, password, confirm_password, first_name, last_name, gender, date_of_birth, registration_date_time, account_status FROM customer ORDER BY username DESC";
         $stmt = $con->prepare($query);
         $stmt->execute();
 
@@ -42,6 +42,7 @@
             echo "<tr>";
             echo "<th>Username</th>";
             echo "<th>Password</th>";
+            echo "<th>Confirm Password</th>";
             echo "<th>First Name</th>";
             echo "<th>Last Name</th>";
             echo "<th>Gender</th>";
@@ -60,6 +61,7 @@
                 echo "<tr>";
                 echo "<td>{$username}</td>";
                 echo "<td>{$password}</td>";
+                echo "<td>{$confirm_password}</td>";
                 echo "<td>{$first_name}</td>";
                 echo "<td>{$last_name}</td>";
                 echo "<td>".($gender != '1' ? ' Male' : ' Female')."</td>";
