@@ -24,7 +24,7 @@
         <table class='table table-hover table-responsive table-bordered'>
             <tr>
                 <td>Name</td>
-                <td><input type='text' name='name' class='form-control'/></td>
+                <td><input type='text' name='name' class='form-control' /></td>
             </tr>
             <tr>
                 <td>Description</td>
@@ -32,25 +32,25 @@
             </tr>
             <tr>
                 <td>Price</td>
-                <td><input type='number' name='price' class='form-control'/></td>
+                <td><input type='number' name='price' class='form-control' /></td>
             </tr>
             <tr>
                 <td>Manufacture Date</td>
-                <td><input type='date' name='manufacture_date' class='form-control'/></td>
+                <td><input type='date' name='manufacture_date' class='form-control' /></td>
             </tr>
             <tr>
                 <td>Expired Date</td>
-                <td><input type='date' name='expired_date' class='form-control'/></td>
+                <td><input type='date' name='expired_date' class='form-control' /></td>
             </tr>
             <tr>
                 <td>Promotion Price</td>
-                <td><input type='number' name='promotion_price' class='form-control'/></td>
+                <td><input type='number' name='promotion_price' class='form-control' /></td>
             </tr>
-            
+
             <tr>
                 <td></td>
                 <td>
-                    <input type='submit' value='Save' class='btn btn-primary'/>
+                    <input type='submit' value='Save' class='btn btn-primary' />
                     <a href='index.php' class='btn btn-danger'>Back to read products</a>
                 </td>
             </tr>
@@ -76,7 +76,7 @@
             // bind the parameters
             $stmt->bindParam(':name', $name);
             $stmt->bindParam(':description', $description);
-            $stmt->bindParam(':price',$price);
+            $stmt->bindParam(':price', $price);
             $stmt->bindParam(':manufacture_date', $manufacture_date);
             $stmt->bindParam(':expired_date', $edate);
             $stmt->bindParam(':promotion_price', $promotion_price);
