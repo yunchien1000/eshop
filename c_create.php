@@ -33,7 +33,7 @@
             </tr>
             <tr>
                 <td>Confirm Password</td>
-                <td><input type='password' name='confirm_password' class='form-control' /></td>
+                <td><input type='password' name='confirm_password' class='form-control' minlength="6" required /></td>
             </tr>
             <tr>
                 <td>First name</td>
@@ -80,9 +80,13 @@
         include 'config/database.php';
         try {
             // insert query
-            $query = "INSERT INTO customer SET username=:username, password=:password, confirm_password=:confirm_password, first_name=:first_name, last_name=:last_name, gender=:gender, date_of_birth=:date_of_birth";
-            // prepare query for execution
-            $stmt = $con->prepare($query);
+            $errormsg = "";
+            
+            if ($errormsg == "") {
+                $query = "INSERT INTO customer SET username=:username, password=:password, confirm_password=:confirm_password, first_name=:first_name, last_name=:last_name, gender=:gender, date_of_birth=:date_of_birth";
+                // prepare query for execution
+                $stmt = $con->prepare($query);
+            }
             // posted values
             $username = htmlspecialchars(strip_tags($_POST['username']));
             $password = md5($_POST['password']);
@@ -92,6 +96,12 @@
             $gender = htmlspecialchars(strip_tags($_POST['gender']));
             $DOB = date(strip_tags($_POST['date_of_birth']));
 
+            if (empty($password || $confirm_password)) {
+                $errormsg = "Please enter password";
+            } elseif ($password != $confirm_password) {
+                $errormsg = "Password and Confirm password should match!";
+            }
+            echo $errormsg;
             // bind the parameters
             $stmt->bindParam(':username', $username);
             $stmt->bindParam(':password', $password);
@@ -108,12 +118,6 @@
                 echo "<div class='alert alert-success'>Record was saved.</div>";
             } else {
                 echo "<div class='alert alert-danger'>Unable to save record.</div>";
-            }
-
-            if ($_POST['password'] === $_POST['confirm_password']) {
-                // success!
-            } else {
-                echo "Password and Confirm password should match!";
             }
         }
         // show error
