@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>PDO - Read One Record - PHP CRUD Tutorial</title>
+    <title>PDO - Read One Customer</title>
     <!-- Latest compiled and minified Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 </head>
@@ -97,7 +97,7 @@
             <tr>
                 <td></td>
                 <td>
-                    <a href='index.php' class='btn btn-danger'>Back to read products</a>
+                    <a href='c_index.php' class='btn btn-danger'>Back to read customer</a>
                 </td>
             </tr>
         </table>
