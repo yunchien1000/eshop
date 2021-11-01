@@ -93,6 +93,13 @@
             } else {
                 echo "<div class='alert alert-danger'>Unable to save record.</div>";
             }
+
+
+            if (is_numeric($price)){
+                echo var_export($price,true),PHP_EOL;
+            }else {
+                echo var_export($price, true). "is NOT numeric", PHP_EOL;
+            }
         }
         // show error
         catch (PDOException $exception) {
