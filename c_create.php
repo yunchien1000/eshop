@@ -8,6 +8,7 @@
 </head>
 
 <body>
+    <?php include 'menu.html'; ?>
     <!-- container -->
     <div class="container">
         <div class="page-header">
@@ -114,9 +115,6 @@
             } else {
                 echo "Password and Confirm password should match!";
             }
-
-
-            
         }
         // show error
         catch (PDOException $exception) {

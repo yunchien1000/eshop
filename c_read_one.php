@@ -9,6 +9,8 @@
 
 <body>
 
+    <?php include 'menu.html'; ?>
+
     <!-- container -->
     <div class="container">
         <div class="page-header">

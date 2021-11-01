@@ -8,6 +8,8 @@
 </head>
 
 <body>
+    <?php include 'menu.html'; ?>
+    
     <!-- container -->
     <div class="container">
         <div class="page-header">
@@ -64,7 +66,7 @@
                 echo "<td>{$confirm_password}</td>";
                 echo "<td>{$first_name}</td>";
                 echo "<td>{$last_name}</td>";
-                echo "<td>".($gender != '1' ? ' Male' : ' Female')."</td>";
+                echo "<td>" . ($gender != '1' ? ' Male' : ' Female') . "</td>";
                 echo "<td>{$date_of_birth}</td>";
                 echo "<td>{$registration_date_time}</td>";
                 echo "<td>{$account_status}</td>";

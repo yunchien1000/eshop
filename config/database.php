@@ -5,7 +5,7 @@ $db_name = "online_store";
 $username = "root";
 $password = "";
 
-include 'menu.php';
+
 try {
     $con = new PDO("mysql:host={$host};dbname={$db_name}", $username, $password);
     $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
