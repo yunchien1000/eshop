@@ -80,7 +80,7 @@
             </tr>
             <tr>
                 <td>Gender</td>
-                <td><?php echo htmlspecialchars($gender, ENT_QUOTES);  ?></td>
+                <td><?php echo htmlspecialchars($gender != '1' ? ' Male' : ' Female', ENT_QUOTES);  ?></td>
             </tr>
             <tr>
                 <td>Date of Birth</td>

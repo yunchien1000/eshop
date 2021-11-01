@@ -2,14 +2,14 @@
 <html>
 
 <head>
-    <title>PDO - Create a Record - PHP CRUD Tutorial</title>
+    <title>Read Customer</title>
     <!-- Latest compiled and minified Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 </head>
 
 <body>
     <?php include 'menu.html'; ?>
-    
+
     <!-- container -->
     <div class="container">
         <div class="page-header">
@@ -32,7 +32,7 @@
         $num = $stmt->rowCount();
 
         // link to create record form
-        echo "<a href='create.php' class='btn btn-primary m-2'>Create New Product</a>";
+        echo "<a href='c_create.php' class='btn btn-primary m-2'>Create New Product</a>";
 
         //check if more than 0 record found
         if ($num > 0) {
@@ -72,7 +72,7 @@
                 echo "<td>{$account_status}</td>";
                 echo "<td>";
                 // read one record
-                echo "<a href='read_one.php?username={$username}' class='btn btn-info m-2'>Read</a>";
+                echo "<a href='c_read_one.php?username={$username}' class='btn btn-info m-2'>Read</a>";
 
                 // we will use this links on next part of this post
                 echo "<a href='update.php?username={$username}' class='btn btn-primary m-2'>Edit</a>";
