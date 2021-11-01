@@ -79,7 +79,7 @@
         include 'config/database.php';
         try {
             // insert query
-            $query = "INSERT INTO customer SET username=:username, password=:password, confirm_password, first_name=:first_name, last_name=:last_name, gender=:gender, date_of_birth=:date_of_birth";
+            $query = "INSERT INTO customer SET username=:username, password=:password, confirm_password=:confirm_password, first_name=:first_name, last_name=:last_name, gender=:gender, date_of_birth=:date_of_birth";
             // prepare query for execution
             $stmt = $con->prepare($query);
             // posted values
@@ -108,6 +108,15 @@
             } else {
                 echo "<div class='alert alert-danger'>Unable to save record.</div>";
             }
+
+            if ($_POST['password'] === $_POST['confirm_password']) {
+                // success!
+            } else {
+                echo "Password and Confirm password should match!";
+            }
+
+
+            
         }
         // show error
         catch (PDOException $exception) {
