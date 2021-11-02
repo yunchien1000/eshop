@@ -61,7 +61,7 @@
             <tr>
                 <td></td>
                 <td>
-                    <input type='submit' value='Save' class='btn btn-primary' />
+                    <input type='submit' value='Save' class='btn btn-primary'/>
                     <a href='index.php' class='btn btn-danger'>Back to read products</a>
                 </td>
             </tr>
@@ -76,8 +76,6 @@
             $query = "INSERT INTO customer SET username=:username, password=:password, confirm_password=:confirm_password, first_name=:first_name, last_name=:last_name, gender=:gender, date_of_birth=:date_of_birth";
             // prepare query for execution
             $stmt = $con->prepare($query);
-
-
             // posted values
             $username = htmlspecialchars(strip_tags($_POST['username']));
             $password = md5($_POST['password']);
