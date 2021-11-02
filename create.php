@@ -27,33 +27,33 @@
         <table class='table table-hover table-responsive table-bordered'>
             <tr>
                 <td>Name</td>
-                <td><input type='text' name='name' class='form-control' /></td>
+                <td><input type='text' name='name' class='form-control' required/></td>
             </tr>
             <tr>
                 <td>Description</td>
-                <td><textarea name='description' class='form-control'></textarea></td>
+                <td><textarea name='description' class='form-control' required></textarea></td>
             </tr>
             <tr>
                 <td>Price</td>
-                <td><input type='number' name='price' class='form-control' /></td>
+                <td><input type='number' name='price' class='form-control' required/></td>
             </tr>
             <tr>
                 <td>Manufacture Date</td>
-                <td><input type='date' name='manufacture_date' class='form-control' /></td>
+                <td><input type='date' name='manufacture_date' class='form-control' required/></td>
             </tr>
             <tr>
                 <td>Expired Date</td>
-                <td><input type='date' name='expired_date' class='form-control' /></td>
+                <td><input type='date' name='expired_date' class='form-control' required/></td>
             </tr>
             <tr>
                 <td>Promotion Price</td>
-                <td><input type='number' name='promotion_price' class='form-control' /></td>
+                <td><input type='number' name='promotion_price' class='form-control' required/></td>
             </tr>
 
             <tr>
                 <td></td>
                 <td>
-                    <input type='submit' value='Save' class='btn btn-primary' />
+                    <input type='submit' value='Save' class='btn btn-primary'/>
                     <a href='index.php' class='btn btn-danger'>Back to read products</a>
                 </td>
             </tr>
