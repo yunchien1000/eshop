@@ -23,11 +23,11 @@
         <table class='table table-hover table-responsive table-bordered'>
             <tr>
                 <td>Username</td>
-                <td><input type='text' name='username' class='form-control' /></td>
+                <td><input type='text' name='username' class='form-control' required/></td>
             </tr>
             <tr>
                 <td>Password</td>
-                <td><input type='password' name='password' class='form-control' /></td>
+                <td><input type='password' name='password' class='form-control' required/></td>
             </tr>
             <tr>
                 <td>Confirm Password</td>
@@ -35,20 +35,20 @@
             </tr>
             <tr>
                 <td>First name</td>
-                <td><input type='text' name='first_name' class='form-control' /></td>
+                <td><input type='text' name='first_name' class='form-control' required/></td>
             </tr>
             <tr>
                 <td>Last name</td>
-                <td><input type='text' name='last_name' class='form-control' /></td>
+                <td><input type='text' name='last_name' class='form-control' required/></td>
             </tr>
             <tr>
                 <td>Gender</td>
                 <td>
-                    <input class="form-check-input" type="radio" value="0" name="gender">
+                    <input class="form-check-input" type="radio" value="0" name="gender" required>
                     <label class="form-check-label" for="inlineRadio1">
                         Male
                     </label>
-                    <input class="form-check-input" type="radio" value="1" name="gender">
+                    <input class="form-check-input" type="radio" value="1" name="gender" required>
                     <label class="form-check-label" for="inlineRadio2">
                         Female
                     </label>
@@ -56,7 +56,7 @@
             </tr>
             <tr>
                 <td>Date of Birth</td>
-                <td><input type='date' name='date_of_birth' class='form-control' /></td>
+                <td><input type='date' name='date_of_birth' class='form-control' required/></td>
             </tr>
             <tr>
                 <td></td>
@@ -90,7 +90,7 @@
             if (empty($password || $confirm_password)) {
                 echo "Please enter password";
             } elseif ($password != $confirm_password) {
-                echo "Password and Confirm password should match!";
+                echo "<div class='alert alert-danger'>Password and Confirm password should match!</div>";
             } else {
                 // bind the parameters
                 $stmt->bindParam(':username', $username);
