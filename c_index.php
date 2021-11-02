@@ -69,7 +69,7 @@
                 echo "<td>" . ($gender != '1' ? ' Male' : ' Female') . "</td>";
                 echo "<td>{$date_of_birth}</td>";
                 echo "<td>{$registration_date_time}</td>";
-                echo "<td>{$account_status}</td>";
+                echo "<td>" . ($account_status != '1' ? 'Unonline' : 'Online') . "</td>";
                 echo "<td>";
                 // read one record
                 echo "<a href='c_read_one.php?username={$username}' class='btn btn-info m-1'>Read</a>";

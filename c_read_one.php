@@ -92,7 +92,7 @@
             </tr>
             <tr>
                 <td>Account Status</td>
-                <td><?php echo htmlspecialchars($account_status, ENT_QUOTES);  ?></td>
+                <td><?php echo htmlspecialchars($account_status != '1' ? 'Unonline' : 'Online', ENT_QUOTES);  ?></td>
             </tr>
             <tr>
                 <td></td>
