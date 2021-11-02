@@ -32,7 +32,7 @@
         $num = $stmt->rowCount();
 
         // link to create record form
-        echo "<a href='c_create.php' class='btn btn-primary m-2'>Create New Product</a>";
+        echo "<a href='c_create.php' class='btn btn-primary my-2'>Create New Product</a>";
 
         //check if more than 0 record found
         if ($num > 0) {
