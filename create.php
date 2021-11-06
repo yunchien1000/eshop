@@ -8,10 +8,9 @@
 </head>
 
 <body>
-
-    <?php include 'menu.html';?>    
-
     <!-- container -->
+
+    <?php include 'menu.html'; ?>
     <div class="container">
         <div class="page-header">
             <h1>Create Product</h1>
@@ -27,7 +26,7 @@
         <table class='table table-hover table-responsive table-bordered'>
             <tr>
                 <td>Name</td>
-                <td><input type='text' name='name' class='form-control' required/></td>
+                <td><input type='text' name='name' class='form-control' required /></td>
             </tr>
             <tr>
                 <td>Description</td>
@@ -35,25 +34,25 @@
             </tr>
             <tr>
                 <td>Price</td>
-                <td><input type='number' name='price' class='form-control' required/></td>
+                <td><input type='number' name='price' class='form-control' required /></td>
             </tr>
             <tr>
                 <td>Manufacture Date</td>
-                <td><input type='date' name='manufacture_date' class='form-control' required/></td>
+                <td><input type='date' name='manufacture_date' class='form-control' required /></td>
             </tr>
             <tr>
                 <td>Expired Date</td>
-                <td><input type='date' name='expired_date' class='form-control' required/></td>
+                <td><input type='date' name='expired_date' class='form-control' required /></td>
             </tr>
             <tr>
                 <td>Promotion Price</td>
-                <td><input type='number' name='promotion_price' class='form-control' required/></td>
+                <td><input type='number' name='promotion_price' class='form-control' required /></td>
             </tr>
 
             <tr>
                 <td></td>
                 <td>
-                    <input type='submit' value='Save' class='btn btn-primary'/>
+                    <input type='submit' value='Save' class='btn btn-primary' />
                     <a href='index.php' class='btn btn-danger'>Back to read products</a>
                 </td>
             </tr>
@@ -61,7 +60,7 @@
     </form>
 
     <?php
-    
+
     if ($_POST) {
         // include database connection
         include 'config/database.php';
@@ -95,10 +94,10 @@
             }
 
 
-            if (is_numeric($price)){
-                echo var_export($price,true),PHP_EOL;
-            }else {
-                echo var_export($price, true). "is NOT numeric", PHP_EOL;
+            if (is_numeric($price)) {
+                echo var_export($price, true), PHP_EOL;
+            } else {
+                echo var_export($price, true) . "is NOT numeric", PHP_EOL;
             }
         }
         // show error
@@ -108,8 +107,6 @@
     }
     ?>
 
-    
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
 </body>
-

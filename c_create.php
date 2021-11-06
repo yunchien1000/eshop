@@ -23,32 +23,32 @@
         <table class='table table-hover table-responsive table-bordered'>
             <tr>
                 <td>Username</td>
-                <td><input type='text' name='username' class='form-control' required/></td>
+                <td><input type='text' name='username' class='form-control' /></td>
             </tr>
             <tr>
                 <td>Password</td>
-                <td><input type='password' name='password' class='form-control' required/></td>
+                <td><input type='password' name='password' class='form-control' /></td>
             </tr>
             <tr>
                 <td>Confirm Password</td>
-                <td><input type='password' name='confirm_password' class='form-control' minlength="6" required /></td>
+                <td><input type='password' name='confirm_password' class='form-control' /></td>
             </tr>
             <tr>
                 <td>First name</td>
-                <td><input type='text' name='first_name' class='form-control' required/></td>
+                <td><input type='text' name='first_name' class='form-control' /></td>
             </tr>
             <tr>
                 <td>Last name</td>
-                <td><input type='text' name='last_name' class='form-control' required/></td>
+                <td><input type='text' name='last_name' class='form-control' /></td>
             </tr>
             <tr>
                 <td>Gender</td>
                 <td>
-                    <input class="form-check-input" type="radio" value="0" name="gender" required>
+                    <input class="form-check-input" type="radio" value="0" name="gender">
                     <label class="form-check-label" for="inlineRadio1">
                         Male
                     </label>
-                    <input class="form-check-input" type="radio" value="1" name="gender" required>
+                    <input class="form-check-input" type="radio" value="1" name="gender">
                     <label class="form-check-label" for="inlineRadio2">
                         Female
                     </label>
@@ -56,12 +56,12 @@
             </tr>
             <tr>
                 <td>Date of Birth</td>
-                <td><input type='date' name='date_of_birth' class='form-control' required/></td>
+                <td><input type='date' name='date_of_birth' class='form-control' /></td>
             </tr>
             <tr>
                 <td></td>
                 <td>
-                    <input type='submit' value='Save' class='btn btn-primary'/>
+                    <input type='submit' value='Save' class='btn btn-primary' />
                     <a href='index.php' class='btn btn-danger'>Back to read products</a>
                 </td>
             </tr>
@@ -72,24 +72,46 @@
         // include database connection
         include 'config/database.php';
         try {
-            // insert query
-            $query = "INSERT INTO customer SET username=:username, password=:password, confirm_password=:confirm_password, first_name=:first_name, last_name=:last_name, gender=:gender, date_of_birth=:date_of_birth";
-            // prepare query for execution
-            $stmt = $con->prepare($query);
+
             // posted values
             $username = htmlspecialchars(strip_tags($_POST['username']));
-            $password = md5($_POST['password']);
-            $confirm_password = md5($_POST['confirm_password']);
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
             $first_name = htmlspecialchars(strip_tags($_POST['first_name']));
             $last_name = htmlspecialchars(strip_tags($_POST['last_name']));
-            $gender = htmlspecialchars(strip_tags($_POST['gender']));
+            $gender = isset($_POST['gender']) ? $_POST['gender'] : "";
             $DOB = date(strip_tags($_POST['date_of_birth']));
+            $flag = 1;
+            $massage = "";
+            $year= substr($DOB,0,4);
+            $nowyear = date("Y");
+            
 
-            if (empty($password || $confirm_password)) {
-                echo "Please enter password";
-            } elseif ($password != $confirm_password) {
-                echo "<div class='alert alert-danger'>Password and Confirm password should match!</div>";
-            } else {
+            if ($username == "" || $password == "" || $confirm_password == "" || $first_name == "" || $last_name == "" || $gender == "" || $DOB == "") {
+                $flag = 0;
+                $massage = $massage . "Please fill up your information. ";
+            }
+            if (strlen($password) < 6) {
+                $flag = 0;
+                $massage = $massage . "Password must more than 6 character. ";
+            }
+            if ($password != $confirm_password) {
+                $flag = 0;
+                $massage = $massage . "Password must be same. ";
+            }
+            $myage = $nowyear - $year;
+
+            if($myage < 18){
+                $flag = 0;
+                $massage = $massage . "Must above or 18 years old. ";
+            }
+
+            if ($flag == 1) {
+                // insert query
+                $query = "INSERT INTO customer SET username=:username, password=:password, confirm_password=:confirm_password, first_name=:first_name, last_name=:last_name, gender=:gender, date_of_birth=:date_of_birth";
+                // prepare query for execution
+                $stmt = $con->prepare($query);
+
                 // bind the parameters
                 $stmt->bindParam(':username', $username);
                 $stmt->bindParam(':password', $password);
@@ -105,6 +127,8 @@
                 } else {
                     echo "<div class='alert alert-danger'>Unable to save record.</div>";
                 }
+            } else {
+                echo "<div class='alert alert-danger'>$massage </div>";
             }
         }
         // show error
