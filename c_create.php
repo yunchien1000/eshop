@@ -85,6 +85,7 @@
             $massage = "";
             $year= substr($DOB,0,4);
             $nowyear = date("Y");
+            $myage = $nowyear - $year;
             
 
             if ($username == "" || $password == "" || $confirm_password == "" || $first_name == "" || $last_name == "" || $gender == "" || $DOB == "") {
@@ -99,8 +100,7 @@
                 $flag = 0;
                 $massage = $massage . "Password must be same. ";
             }
-            $myage = $nowyear - $year;
-
+            
             if($myage < 18){
                 $flag = 0;
                 $massage = $massage . "Must above or 18 years old. ";
