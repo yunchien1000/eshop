@@ -1,6 +1,9 @@
+<?php 
+    session_start();
+?>
+
 <!DOCTYPE HTML>
 <html>
-
 <head>
     <title>Log In</title>
     <!-- Latest compiled and minified Bootstrap CSS -->
@@ -9,7 +12,6 @@
 
 <?php
 include 'config/database.php';
-session_start();
 
 if ($_POST) {
 
@@ -21,7 +23,7 @@ if ($_POST) {
     } else {
 
         if (isset($username)) {
-            $query = "SELECT username , password, account_status FROM customer WHERE username=? ";
+            $query = "SELECT username , password, account_status FROM customer WHERE username= ? ";
 
             $stmt = $con->prepare($query);
             $stmt->bindParam(1, $username);

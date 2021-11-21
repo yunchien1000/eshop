@@ -1,3 +1,5 @@
+<?php session_start();?>
+
 <!DOCTYPE HTML>
 <html>
 
@@ -23,7 +25,7 @@
         <table class='table table-hover table-responsive table-bordered'>
             <tr>
                 <td>Username</td>
-                <td><input type='text' name='username' class='form-control' /></td>
+                <td><input type='text' name='username' class='form-control'/></td>
             </tr>
             <tr>
                 <td>Password</td>
@@ -68,6 +70,10 @@
         </table>
     </form>
     <?php
+    
+    if(isset($_SESSION['username'])){
+        header("location: login.php");
+    }
     if ($_POST) {
         // include database connection
         include 'config/database.php';
@@ -80,17 +86,17 @@
             $first_name = htmlspecialchars(strip_tags($_POST['first_name']));
             $last_name = htmlspecialchars(strip_tags($_POST['last_name']));
             $gender = isset($_POST['gender']) ? $_POST['gender'] : "";
-            $DOB = date(strip_tags($_POST['date_of_birth']));
+            $DOB = date('Y-m-d',strtotime($_POST['date_of_birth']));
             $flag = 1;
             $massage = "";
             $year= substr($DOB,0,4);
             $nowyear = date("Y");
-            $myage = $nowyear - $year;
-            
+
+
 
             if ($username == "" || $password == "" || $confirm_password == "" || $first_name == "" || $last_name == "" || $gender == "" || $DOB == "") {
                 $flag = 0;
-                $massage = $massage . "Please fill up your information. ";
+                $massage = $massage . "Please fill up your information.";
             }
             if (strlen($password) < 6) {
                 $flag = 0;
@@ -101,21 +107,35 @@
                 $massage = $massage . "Password must be same. ";
             }
             
+            $myage = $nowyear - $year;
+
             if($myage < 18){
                 $flag = 0;
                 $massage = $massage . "Must above or 18 years old. ";
             }
 
+            $query = "SELECT username FROM customer WHERE username = ?";
+            $stmt = $con->prepare($query);
+            $stmt->bindParam(1, $username);
+            $stmt->execute();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $dusername = array($username);
+
+            if(is_array($dusername)){
+                $flag = 0;
+                $massage = $massage . "Please change your username";
+            }
+
             if ($flag == 1) {
                 // insert query
-                $query = "INSERT INTO customer SET username=:username, password=:password, confirm_password=:confirm_password, first_name=:first_name, last_name=:last_name, gender=:gender, date_of_birth=:date_of_birth";
+                $query = "INSERT INTO customer SET username=:username, password=:password, first_name=:first_name, last_name=:last_name, gender=:gender, date_of_birth=:date_of_birth";
                 // prepare query for execution
                 $stmt = $con->prepare($query);
 
                 // bind the parameters
                 $stmt->bindParam(':username', $username);
-                $stmt->bindParam(':password', $password);
-                $stmt->bindParam(':confirm_password', $confirm_password);
+                $newpassword = md5($password);
+                $stmt->bindParam(':password', $newpassword);
                 $stmt->bindParam(':first_name', $first_name);
                 $stmt->bindParam(':last_name', $last_name);
                 $stmt->bindParam(':gender', $gender);
