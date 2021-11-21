@@ -9,16 +9,6 @@
 
 <body>
 
-    <?php
-        if(isset($_GET['username']))
-        {
-            session_destroy();
-            header('location:login.php');
-            exit;
-        }
-    ?>
-
-
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">EShop</a>
@@ -47,11 +37,14 @@
                             <li><a class="dropdown-item" href="c_index.php">Read Customer</a></li>
                         </ul>
                     </li>
-
-
                 </ul>
             </div>
         </div>
+        <ul class="justify-content-end">
+            <li class="nav-item ">
+                <a class="nav-link" href="logout.php">Logout</a>
+            </li>
+        </ul>
     </nav>
 
 </body>
