@@ -34,7 +34,7 @@
             </tr>
             <tr>
                 <td>Price</td>
-                <td><input type='number' name='price' class='form-control' /></td>
+                <td><input type='text' name='price' class='form-control' /></td>
             </tr>
             <tr>
                 <td>Manufacture Date</td>
@@ -46,7 +46,7 @@
             </tr>
             <tr>
                 <td>Promotion Price</td>
-                <td><input type='number' name='promotion_price' class='form-control' /></td>
+                <td><input type='text' name='promotion_price' class='form-control' /></td>
             </tr>
 
             <tr>
@@ -77,10 +77,10 @@
             $date_now = date("Y-m-d");
 
 
-            // if ($name == "" || $description == "" || $price == "" || $manufacture_date == "" || $edate == "" || $promotion_price == "") {
-            //     $flag = 0;
-            //     $massage = $massage . "Please fill up ALL the product information. ";
-            // }
+            if ($name == "" || $description == "" || $price == "" || $manufacture_date == "" || $edate == "" || $promotion_price == "") {
+                $flag = 0;
+                $massage = $massage . "Please fill up ALL the product information. ";
+            }
             if($manufacture_date > $edate){
                 $flag = 0;
                 $massage = $massage . "Expired date cannot greater than manufacture date. ";
@@ -88,6 +88,14 @@
             if($manufacture_date > $date_now){
                 $flag = 0;
                 $massage = $massage . "Error for manufacture date. ";
+            }
+            if($price < $promotion_price){
+                $flag = 0;
+                $massage = $massage . "Promotion price cannot greater than price. ";
+            }
+            if(!is_numeric($price) && !is_numeric($promotion_price)) {
+                $flag = 0;
+                $massage = $massage . "Price must be number.";
             }
 
 
