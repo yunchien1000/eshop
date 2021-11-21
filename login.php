@@ -36,7 +36,7 @@ if ($_POST) {
                         // echo "<div class='alert alert-success'>Logged In!</div>";
                         $_SESSION['username'] = $username;
                         header("location: welcome.php");
-                        
+                        exit;
                     } else {
                         echo "<div class='alert alert-danger'>Acount is unactive</div>";
                     }
