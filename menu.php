@@ -39,12 +39,15 @@
                     </li>
                 </ul>
             </div>
+            <form class="d-flex">
+                <ul class="justify-content-end">
+                    <li>
+                        <a class="nav-link p-0" href="logout.php">Logout</a>
+                    </li>
+                </ul>
+            </form>
         </div>
-        <ul class="justify-content-end">
-            <li class="nav-item ">
-                <a class="nav-link" href="logout.php">Logout</a>
-            </li>
-        </ul>
+
     </nav>
 
 </body>

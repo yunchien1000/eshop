@@ -44,7 +44,6 @@
             echo "<tr>";
             echo "<th>Username</th>";
             echo "<th>Password</th>";
-            echo "<th>Confirm Password</th>";
             echo "<th>First Name</th>";
             echo "<th>Last Name</th>";
             echo "<th>Gender</th>";
@@ -74,7 +73,7 @@
                 echo "<a href='c_read_one.php?username={$username}' class='btn btn-info m-1'>Read</a>";
 
                 // we will use this links on next part of this post
-                echo "<a href='update.php?username={$username}' class='btn btn-primary m-1'>Edit</a>";
+                echo "<a href='c_update.php?username={$username}' class='btn btn-primary m-1'>Edit</a>";
 
                 // we will use this links on next part of this post
                 echo "<a href='#' onclick='delete_user({$username});'  class='btn btn-danger m-1'>Delete</a>";
