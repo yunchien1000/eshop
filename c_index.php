@@ -24,7 +24,7 @@
         // delete message prompt will be here
 
         // select all data
-        $query = "SELECT username, password, first_name, last_name, gender, date_of_birth, registration_date_time, account_status FROM customer ORDER BY username DESC";
+        $query = "SELECT username, first_name, last_name, gender, date_of_birth, registration_date_time, account_status FROM customer ORDER BY username DESC";
         $stmt = $con->prepare($query);
         $stmt->execute();
 
@@ -32,7 +32,7 @@
         $num = $stmt->rowCount();
 
         // link to create record form
-        echo "<a href='c_create.php' class='btn btn-primary my-2'>Create New Product</a>";
+        echo "<a href='c_create.php' class='btn btn-primary my-2'>Create New Customer</a>";
 
         //check if more than 0 record found
         if ($num > 0) {
@@ -43,7 +43,6 @@
             //creating our table heading
             echo "<tr>";
             echo "<th>Username</th>";
-            echo "<th>Password</th>";
             echo "<th>First Name</th>";
             echo "<th>Last Name</th>";
             echo "<th>Gender</th>";
@@ -61,7 +60,6 @@
                 // creating new table row per record
                 echo "<tr>";
                 echo "<td>{$username}</td>";
-                echo "<td>{$password}</td>";
                 echo "<td>{$first_name}</td>";
                 echo "<td>{$last_name}</td>";
                 echo "<td>" . ($gender != '1' ? ' Male' : ' Female') . "</td>";

@@ -149,13 +149,7 @@
         // check if form was submitted
         if ($_POST) {
             try {
-                // write update query
-                // in this case, it seemed like we have so many fields to pass and
-                // it is better to label them and not use question marks
-                $query = "UPDATE products
-                  SET name=:name, description=:description, price=:price, promotion_price=:promotion_price, manufacture_date=:manufacture_date, expired_date=:expired_date WHERE id = :id";
-                // prepare query for excecution
-                $stmt = $con->prepare($query);
+
                 // posted values
                 $name = htmlspecialchars(strip_tags($_POST['name']));
                 $description = htmlspecialchars(strip_tags($_POST['description']));
@@ -163,19 +157,55 @@
                 $pprice = htmlspecialchars(strip_tags($_POST['promotion_price']));
                 $mdate = htmlspecialchars(strip_tags($_POST['manufacture_date']));
                 $edate = htmlspecialchars(strip_tags($_POST['expired_date']));
-                // bind the parameters
-                $stmt->bindParam(':name', $name);
-                $stmt->bindParam(':description', $description);
-                $stmt->bindParam(':price', $price);
-                $stmt->bindParam(':promotion_price', $pprice);
-                $stmt->bindParam(':manufacture_date', $mdate);
-                $stmt->bindParam(':expired_date', $edate);
-                $stmt->bindParam(':id', $id);
-                // Execute the query
-                if ($stmt->execute()) {
-                    echo "<div class='alert alert-success'>Record was updated.</div>";
-                } else {
-                    echo "<div class='alert alert-danger'>Unable to update record. Please try again.</div>";
+                $flag = 1;
+                $massage = "";
+                $date_now = date("Y-m-d");
+
+                if ($name == "" || $description == "" || $price == "" || $mdate == "" || $edate == "" || $pprice == "") {
+                    $flag = 0;
+                    $massage = $massage . "Please fill up ALL the product information. ";
+                }
+                if($mdate > $edate){
+                    $flag = 0;
+                    $massage = $massage . "Expired date cannot greater than manufacture date. ";
+                }
+                if($mdate > $date_now){
+                    $flag = 0;
+                    $massage = $massage . "Error for manufacture date. ";
+                }
+                if($price < $pprice){
+                    $flag = 0;
+                    $massage = $massage . "Promotion price cannot greater than price. ";
+                }
+                if(!is_numeric($price) && !is_numeric($pprice)) {
+                    $flag = 0;
+                    $massage = $massage . "Price must be number.";
+                }
+
+
+                if($flag == 1) {
+                    // write update query
+                    // in this case, it seemed like we have so many fields to pass and
+                    // it is better to label them and not use question marks
+                    $query = "UPDATE products SET name=:name, description=:description, price=:price, promotion_price=:promotion_price, manufacture_date=:manufacture_date, expired_date=:expired_date WHERE id = :id";
+                    // prepare query for excecution
+                    $stmt = $con->prepare($query);
+                    // bind the parameters
+                    $stmt->bindParam(':name', $name);
+                    $stmt->bindParam(':description', $description);
+                    $stmt->bindParam(':price', $price);
+                    $stmt->bindParam(':promotion_price', $pprice);
+                    $stmt->bindParam(':manufacture_date', $mdate);
+                    $stmt->bindParam(':expired_date', $edate);
+                    $stmt->bindParam(':id', $id);
+                    // Execute the query
+                    if ($stmt->execute()) {
+                        echo "<div class='alert alert-success'>Record was updated.</div>";
+                    } else {
+                        echo "<div class='alert alert-danger'>Unable to update record. Please try again.</div>";
+                    }
+                }else {
+                    echo "<div class='alert alert-danger'>$massage </div>";
                 }
             }
             // show errors

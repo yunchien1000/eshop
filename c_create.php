@@ -64,16 +64,13 @@
                 <td></td>
                 <td>
                     <input type='submit' value='Save' class='btn btn-primary' />
-                    <a href='index.php' class='btn btn-danger'>Back to read products</a>
+                    <a href='c_index.php' class='btn btn-danger'>Back to read customer</a>
                 </td>
             </tr>
         </table>
     </form>
     <?php
     
-    if(isset($_SESSION['username'])){
-        header("location: login.php");
-    }
     if ($_POST) {
         // include database connection
         include 'config/database.php';
@@ -119,9 +116,9 @@
             $stmt->bindParam(1, $username);
             $stmt->execute();
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            $dusername = array($username);
+            
 
-            if(is_array($dusername)){
+            if(is_array($username)){
                 $flag = 0;
                 $massage = $massage . "Please change your username";
             }
