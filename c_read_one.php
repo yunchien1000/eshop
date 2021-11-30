@@ -29,7 +29,7 @@
         // read current record's data
         try {
             // prepare select query
-            $query = "SELECT username, password, first_name, last_name, gender, date_of_birth, registration_date_time, account_status FROM customer WHERE username = ? LIMIT 0,1";
+            $query = "SELECT username, password, email, first_name, last_name, gender, date_of_birth, registration_date_time, account_status FROM customer WHERE username = ? LIMIT 0,1";
             $stmt = $con->prepare($query);
 
             // this is the first question mark
@@ -43,6 +43,7 @@
 
             // values to fill up our form
             $username = $row['username'];
+            $email = $row['email'];
             $password = $row['password'];
             $first_name = $row['first_name'];
             $last_name = $row['last_name'];
@@ -65,6 +66,10 @@
             <tr>
                 <td>Username</td>
                 <td><?php echo htmlspecialchars($username, ENT_QUOTES);  ?></td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td><?php echo htmlspecialchars($email, ENT_QUOTES);  ?></td>
             </tr>
             <tr>
                 <td>Password</td>

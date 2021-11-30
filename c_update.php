@@ -47,7 +47,7 @@ session_start();
         // read current record's data
         try {
             // prepare select query
-            $query = "SELECT username, password, first_name, last_name, gender, date_of_birth, registration_date_time, account_status FROM customer WHERE username = ? LIMIT 0,1";
+            $query = "SELECT username, password, email, first_name, last_name, gender, date_of_birth, registration_date_time, account_status FROM customer WHERE username = ? LIMIT 0,1";
             $stmt = $con->prepare($query);
 
             // this is the first question mark
@@ -61,6 +61,7 @@ session_start();
 
             // values to fill up our form
             $password = $row['password'];
+            $email = $row['email'];
             $fname = $row['first_name'];
             $lname = $row['last_name'];
             $gender = $row['gender'];
@@ -75,6 +76,7 @@ session_start();
                 // creating new table row per record
                 echo "<tr>";
                 echo "<td>{$cusername}</td>";
+                echo "<td>{$email}</td>";
                 echo "<td>{$password}</td>";
                 echo "<td>${$fname}</td>";
                 echo "<td>${$lname}</td>";
@@ -101,6 +103,7 @@ session_start();
 
             // posted values
             $password = htmlspecialchars(strip_tags($_POST['password']));
+            $email = htmlspecialchars(strip_tags($_POST['email']));
             $npassword = htmlspecialchars(strip_tags($_POST['npassword']));
             $cpassword = htmlspecialchars(strip_tags($_POST['cpassword']));
             $fname = htmlspecialchars(strip_tags($_POST['first_name']));
@@ -108,18 +111,47 @@ session_start();
             $gender = isset($_POST['gender']) ? $_POST['gender'] : "";
             $DOB = htmlspecialchars(strip_tags($_POST['date_of_birth']));
             $flag = 1;
-            $massage = "";
             $year = substr($DOB, 0, 4);
             $nowyear = date("Y");
 
-            if ($fname == "" || $lname == "" || $gender == "" || $DOB == "") {
+            if ($email == "" || $fname == "" || $lname == "" || $gender == "" || $DOB == "") {
                 $flag = 0;
-                $massage = $massage . "Please fill up customer information.";
+                echo "<div class='alert alert-danger'>Please fill up customer information.</div>";
             }
+
+
+            if(!filter_var($email,FILTER_VALIDATE_EMAIL)){
+                $flag = 0;
+                echo "<div class='alert alert-danger'>Invalid email format.</div>";
+            }
+            $query = "SELECT email FROM customer WHERE email = ?";
+            $stmt = $con->prepare($query);
+            $stmt->bindParam(1, $email);
+            $stmt->execute();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if(is_array($row)){
+                if($email == $row['email']){
+                    $flag = 0;
+                    echo "<div class='alert alert-danger'>Email already taken.</div>";
+                }
+            }
+            // $query = "SELECT username, email FROM customer WHERE email = ?";
+            // $stmt = $con->prepare($query);
+            // $stmt->bindParam(1, $id);
+            // $stmt->execute();
+            // $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            // if($_POST["email"] != $email && $row['email'] == $email){
+            //     $flag = 0;
+            //     echo "<div class='alert alert-danger'>Email already taken.</div>";
+            // }
+
+
             $myage = $nowyear - $year;
             if ($myage < 18) {
                 $flag = 0;
-                $massage = $massage . "Must above or 18 years old. ";
+                echo "<div class='alert alert-danger'>Must above or 18 years old.  </div>";
             }
 
 
@@ -128,11 +160,12 @@ session_start();
                     // write update query
                     // in this case, it seemed like we have so many fields to pass and
                     // it is better to label them and not use question marks
-                    $query = "UPDATE customer SET first_name=:first_name, last_name=:last_name, gender=:gender, date_of_birth=:date_of_birth WHERE username = :username";
+                    $query = "UPDATE customer SET email=:email, first_name=:first_name, last_name=:last_name, gender=:gender, date_of_birth=:date_of_birth WHERE username = :username";
                     // prepare query for excecution
                     $stmt = $con->prepare($query);
                     // bind the parameters
                     $stmt->bindParam(':username', $id);
+                    $stmt->bindParam(':email', $email);
                     $stmt->bindParam(':first_name', $fname);
                     $stmt->bindParam(':last_name', $lname);
                     $stmt->bindParam(':gender', $gender);
@@ -212,6 +245,10 @@ session_start();
                 <tr>
                     <td>Username</td>
                     <td><?php echo htmlspecialchars($id, ENT_QUOTES);  ?></td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td><input type='text' name='email' id='email' value="<?php echo htmlspecialchars($email, ENT_QUOTES);  ?>" class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>Current Password</td>

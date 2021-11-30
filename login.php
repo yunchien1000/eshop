@@ -1,9 +1,10 @@
-<?php 
-    session_start();
+<?php
+session_start();
 ?>
 
 <!DOCTYPE HTML>
 <html>
+
 <head>
     <title>Log In</title>
     <!-- Latest compiled and minified Bootstrap CSS -->
@@ -16,14 +17,15 @@ include 'config/database.php';
 if ($_POST) {
 
     $username = htmlspecialchars(strip_tags($_POST['username']));
+    $email = htmlspecialchars(strip_tags($_POST['email']));
     $password = htmlspecialchars(strip_tags($_POST['password']));
 
-    if ($username == "" || $password == "") {
+    if ($username == "" || $password == "" || $email == "") {
         echo "<div class='alert alert-danger'>Please enter your information </div>";
     } else {
 
         if (isset($username)) {
-            $query = "SELECT username , password, account_status FROM customer WHERE username= ? ";
+            $query = "SELECT username , password, email, account_status FROM customer WHERE username= ? ";
 
             $stmt = $con->prepare($query);
             $stmt->bindParam(1, $username);
@@ -33,10 +35,14 @@ if ($_POST) {
             if (is_array($row)) {
                 if (md5($password) == $row['password']) {
                     if ($row['account_status'] == 1) {
-                        // echo "<div class='alert alert-success'>Logged In!</div>";
-                        $_SESSION['username'] = $username;
-                        header("location: welcome.php");
-                        exit;
+                        if ($email == $row['email']) {
+                            // echo "<div class='alert alert-success'>Logged In!</div>";
+                            $_SESSION['username'] = $username;
+                            header("location: welcome.php");
+                            exit;
+                        }else {
+                            echo"<div class='alert alert-danger'>Wrong email. </div>";
+                        }
                     } else {
                         echo "<div class='alert alert-danger'>Acount is unactive</div>";
                     }
@@ -64,6 +70,10 @@ if ($_POST) {
                     <input type="text" id="username" name="username" class="form-control">
                 </div>
 
+                <div class="mb-3 mt-3">
+                    <label class="form-label">Email</label>
+                    <input type="text" id="email" name="email" class="form-control">
+                </div>
 
                 <div class="mb-5">
                     <label class="form-label">Password</label>

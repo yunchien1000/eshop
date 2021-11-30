@@ -36,6 +36,10 @@
                 <td><input type='password' name='confirm_password' class='form-control' /></td>
             </tr>
             <tr>
+                <td>Email</td>
+                <td><input type='text' name='email' class='form-control' /></td>
+            </tr>
+            <tr>
                 <td>First name</td>
                 <td><input type='text' name='first_name' class='form-control' /></td>
             </tr>
@@ -78,8 +82,9 @@
 
             // posted values
             $username = htmlspecialchars(strip_tags($_POST['username']));
-            $password = $_POST['password'];
+            $password = htmlspecialchars(strip_tags($_POST['password']));
             $confirm_password = $_POST['confirm_password'];
+            $email = htmlspecialchars(strip_tags($_POST['email']));
             $first_name = htmlspecialchars(strip_tags($_POST['first_name']));
             $last_name = htmlspecialchars(strip_tags($_POST['last_name']));
             $gender = isset($_POST['gender']) ? $_POST['gender'] : "";
@@ -91,41 +96,59 @@
 
 
 
-            if ($username == "" || $password == "" || $confirm_password == "" || $first_name == "" || $last_name == "" || $gender == "" || $DOB == "") {
+            if ($username == "" || $password == "" || $confirm_password == "" || $email == "" || $first_name == "" || $last_name == "" || $gender == "" || $DOB == "") {
                 $flag = 0;
-                $massage = $massage . "Please fill up your information.";
+                $massage = $massage . "Please fill up your information.  ";
             }
+
+            
+            $query = "SELECT username FROM customer WHERE username = ?";
+            $stmt = $con->prepare($query);
+            $stmt->bindParam(1, $username);
+            $stmt->execute();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            if(is_array($row)){
+                $flag = 0;
+                $massage = $massage . "Username already taken.  ";
+            }
+
+
+            if(!filter_var($email,FILTER_VALIDATE_EMAIL)){
+                $flag = 0;
+                $massage = $massage . "Invalid email format.  ";
+            }
+
+            $query = "SELECT email FROM customer WHERE email = ?";
+            $stmt = $con->prepare($query);
+            $stmt->bindParam(1, $email);
+            $stmt->execute();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            if(is_array($row)){
+                $flag = 0;
+                $massage = $massage . "Email already taken.  ";
+            }
+
             if (strlen($password) < 6) {
                 $flag = 0;
-                $massage = $massage . "Password must more than 6 character. ";
+                $massage = $massage . "Password must more than 6 character.  ";
             }
             if ($password != $confirm_password) {
                 $flag = 0;
-                $massage = $massage . "Password must be same. ";
+                $massage = $massage . "Password must be same.  ";
             }
             
             $myage = $nowyear - $year;
 
             if($myage < 18){
                 $flag = 0;
-                $massage = $massage . "Must above or 18 years old. ";
+                $massage = $massage . "Must above or 18 years old.  ";
             }
 
-            $query = "SELECT username FROM customer WHERE username = ?";
-            $stmt = $con->prepare($query);
-            $stmt->bindParam(1, $username);
-            $stmt->execute();
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
             
-
-            if(is_array($username)){
-                $flag = 0;
-                $massage = $massage . "Please change your username";
-            }
 
             if ($flag == 1) {
                 // insert query
-                $query = "INSERT INTO customer SET username=:username, password=:password, first_name=:first_name, last_name=:last_name, gender=:gender, date_of_birth=:date_of_birth";
+                $query = "INSERT INTO customer SET username=:username, password=:password, email=:email,first_name=:first_name, last_name=:last_name, gender=:gender, date_of_birth=:date_of_birth";
                 // prepare query for execution
                 $stmt = $con->prepare($query);
 
@@ -133,6 +156,7 @@
                 $stmt->bindParam(':username', $username);
                 $newpassword = md5($password);
                 $stmt->bindParam(':password', $newpassword);
+                $stmt->bindParam(':email', $email);
                 $stmt->bindParam(':first_name', $first_name);
                 $stmt->bindParam(':last_name', $last_name);
                 $stmt->bindParam(':gender', $gender);
