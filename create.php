@@ -16,49 +16,76 @@
             <h1>Create Product</h1>
         </div>
         <!-- html form to create product will be here -->
-    </div>
-    <!-- end .container -->
 
-    <!-- PHP insert code will be here -->
 
-    <!-- html form here where the product information will be entered -->
-    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-        <table class='table table-hover table-responsive table-bordered'>
-            <tr>
-                <td>Name</td>
-                <td><input type='text' name='name' class='form-control' /></td>
-            </tr>
-            <tr>
-                <td>Description</td>
-                <td><textarea name='description' class='form-control'></textarea></td>
-            </tr>
-            <tr>
-                <td>Price</td>
-                <td><input type='text' name='price' class='form-control' /></td>
-            </tr>
-            <tr>
-                <td>Manufacture Date</td>
-                <td><input type='date' name='manufacture_date' class='form-control' /></td>
-            </tr>
-            <tr>
-                <td>Expired Date</td>
-                <td><input type='date' name='expired_date' class='form-control' /></td>
-            </tr>
-            <tr>
-                <td>Promotion Price</td>
-                <td><input type='text' name='promotion_price' class='form-control' /></td>
-            </tr>
+        <!-- PHP insert code will be here -->
 
-            <tr>
-                <td></td>
-                <td>
-                    <input type='submit' value='Save' class='btn btn-primary' />
-                    <a href='index.php' class='btn btn-danger'>Back to read products</a>
-                </td>
-            </tr>
-        </table>
-    </form>
+        <!-- html form here where the product information will be entered -->
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+            <table class='table table-hover table-responsive table-bordered'>
+                <tr>
+                    <td>Name</td>
+                    <td><input type='text' name='name' class='form-control' /></td>
+                </tr>
+                <tr>
+                    <td>Description</td>
+                    <td><textarea name='description' class='form-control'></textarea></td>
+                </tr>
+                <tr>
+                    <td>Price</td>
+                    <td><input type='text' name='price' class='form-control' /></td>
+                </tr>
+                <tr>
+                    <td>Promotion Price</td>
+                    <td><input type='text' name='promotion_price' class='form-control' /></td>
+                </tr>
 
+                <tr>
+                    <td>Category</td>
+                    <td>
+                        <?php
+                        include 'config/database.php';
+                        $categoryquery = "SELECT categories_id, categories_name FROM categories ORDER BY categories_id DESC";
+                        $categorystmt = $con->prepare($categoryquery);
+                        $categorystmt->execute();
+
+                        $categorynum = $categorystmt->rowCount();
+
+                        if ($categorynum > 0) {
+
+                            echo "<select class= 'form-select' aria-label='Default select example' name='categories'>";
+                            echo "<option selected>Categories</option>";
+                            while ($row = $categorystmt->fetch(PDO::FETCH_ASSOC)) {
+                                extract($row);
+                                echo "<option value=$categories_id>$categories_name";
+                                echo "</option>";
+                            }
+                            echo "</select>";
+                        }
+                        ?>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Manufacture Date</td>
+                    <td><input type='date' name='manufacture_date' class='form-control' /></td>
+                </tr>
+                <tr>
+                    <td>Expired Date</td>
+                    <td><input type='date' name='expired_date' class='form-control' /></td>
+                </tr>
+
+
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type='submit' value='Save' class='btn btn-primary' />
+                        <a href='index.php' class='btn btn-danger'>Back to read products</a>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div><!-- end .container -->
     <?php
 
     if ($_POST) {
@@ -66,34 +93,38 @@
         include 'config/database.php';
         try {
             // posted values
+            $categories = htmlspecialchars(strip_tags($_POST['categories']));
             $name = htmlspecialchars(strip_tags($_POST['name']));
             $description = htmlspecialchars(strip_tags($_POST['description']));
             $price = htmlspecialchars(strip_tags($_POST['price']));
+            $promotion_price = htmlspecialchars(strip_tags($_POST['promotion_price']));
             $manufacture_date = date(strip_tags($_POST['manufacture_date']));
             $edate = date(strip_tags($_POST['expired_date']));
-            $promotion_price = htmlspecialchars(strip_tags($_POST['promotion_price']));
+
             $flag = 1;
             $massage = "";
             $date_now = date("Y-m-d");
 
 
-            if ($name == "" || $description == "" || $price == "" || $manufacture_date == "" || $edate == "" || $promotion_price == "") {
+            if ($name == "" || $description == "" || $price == "" || $manufacture_date == "" || $promotion_price == "") {
                 $flag = 0;
                 $massage = $massage . "Please fill up ALL the product information. ";
             }
-            if($manufacture_date > $edate){
-                $flag = 0;
-                $massage = $massage . "Expired date cannot greater than manufacture date. ";
+            if ($edate != "") {
+                if ($manufacture_date > $edate) {
+                    $flag = 0;
+                    $massage = $massage . "Expired date cannot greater than manufacture date. ";
+                }
             }
-            if($manufacture_date > $date_now){
+            if ($manufacture_date < $date_now) {
                 $flag = 0;
                 $massage = $massage . "Error for manufacture date. ";
             }
-            if($price < $promotion_price){
+            if ($price < $promotion_price) {
                 $flag = 0;
                 $massage = $massage . "Promotion price cannot greater than price. ";
             }
-            if(!is_numeric($price) && !is_numeric($promotion_price)) {
+            if (!is_numeric($price) && !is_numeric($promotion_price)) {
                 $flag = 0;
                 $massage = $massage . "Price must be number.";
             }
@@ -101,11 +132,12 @@
 
             // insert query
             if ($flag == 1) {
-                $query = "INSERT INTO products SET name=:name, description=:description, price=:price, manufacture_date=:manufacture_date, expired_date=:expired_date, promotion_price=:promotion_price, created=:created";
+                $query = "INSERT INTO products SET categories=:categories, name=:name, description=:description, price=:price, manufacture_date=:manufacture_date, expired_date=:expired_date, promotion_price=:promotion_price, created=:created";
                 // prepare query for execution
                 $stmt = $con->prepare($query);
 
                 // bind the parameters
+                $stmt->bindParam(':categories', $categories);
                 $stmt->bindParam(':name', $name);
                 $stmt->bindParam(':description', $description);
                 $stmt->bindParam(':price', $price);

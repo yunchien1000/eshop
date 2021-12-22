@@ -1,4 +1,4 @@
-<?php session_start();?>
+<?php session_start(); ?>
 
 <!DOCTYPE HTML>
 <html>
@@ -17,64 +17,64 @@
             <h1>Create Customer</h1>
         </div>
         <!-- html form to create product will be here -->
-    </div>
-    <!-- end .container -->
-    <!-- PHP insert code will be here -->
-    <!-- html form here where the product information will be entered -->
-    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-        <table class='table table-hover table-responsive table-bordered'>
-            <tr>
-                <td>Username</td>
-                <td><input type='text' name='username' class='form-control'/></td>
-            </tr>
-            <tr>
-                <td>Password</td>
-                <td><input type='password' name='password' class='form-control' /></td>
-            </tr>
-            <tr>
-                <td>Confirm Password</td>
-                <td><input type='password' name='confirm_password' class='form-control' /></td>
-            </tr>
-            <tr>
-                <td>Email</td>
-                <td><input type='text' name='email' class='form-control' /></td>
-            </tr>
-            <tr>
-                <td>First name</td>
-                <td><input type='text' name='first_name' class='form-control' /></td>
-            </tr>
-            <tr>
-                <td>Last name</td>
-                <td><input type='text' name='last_name' class='form-control' /></td>
-            </tr>
-            <tr>
-                <td>Gender</td>
-                <td>
-                    <input class="form-check-input" type="radio" value="0" name="gender">
-                    <label class="form-check-label" for="inlineRadio1">
-                        Male
-                    </label>
-                    <input class="form-check-input" type="radio" value="1" name="gender">
-                    <label class="form-check-label" for="inlineRadio2">
-                        Female
-                    </label>
-                </td>
-            </tr>
-            <tr>
-                <td>Date of Birth</td>
-                <td><input type='date' name='date_of_birth' class='form-control' /></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td>
-                    <input type='submit' value='Save' class='btn btn-primary' />
-                    <a href='c_index.php' class='btn btn-danger'>Back to read customer</a>
-                </td>
-            </tr>
-        </table>
-    </form>
+
+        <!-- PHP insert code will be here -->
+        <!-- html form here where the product information will be entered -->
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+            <table class='table table-hover table-responsive table-bordered'>
+                <tr>
+                    <td>Username</td>
+                    <td><input type='text' name='username' class='form-control' /></td>
+                </tr>
+                <tr>
+                    <td>Password</td>
+                    <td><input type='password' name='password' class='form-control' /></td>
+                </tr>
+                <tr>
+                    <td>Confirm Password</td>
+                    <td><input type='password' name='confirm_password' class='form-control' /></td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td><input type='text' name='email' class='form-control' /></td>
+                </tr>
+                <tr>
+                    <td>First name</td>
+                    <td><input type='text' name='first_name' class='form-control' /></td>
+                </tr>
+                <tr>
+                    <td>Last name</td>
+                    <td><input type='text' name='last_name' class='form-control' /></td>
+                </tr>
+                <tr>
+                    <td>Gender</td>
+                    <td>
+                        <input class="form-check-input" type="radio" value="0" name="gender">
+                        <label class="form-check-label" for="inlineRadio1">
+                            Male
+                        </label>
+                        <input class="form-check-input" type="radio" value="1" name="gender">
+                        <label class="form-check-label" for="inlineRadio2">
+                            Female
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Date of Birth</td>
+                    <td><input type='date' name='date_of_birth' class='form-control' /></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type='submit' value='Save' class='btn btn-primary' />
+                        <a href='c_index.php' class='btn btn-danger'>Back to read customer</a>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div><!-- end .container -->
     <?php
-    
+
     if ($_POST) {
         // include database connection
         include 'config/database.php';
@@ -88,10 +88,10 @@
             $first_name = htmlspecialchars(strip_tags($_POST['first_name']));
             $last_name = htmlspecialchars(strip_tags($_POST['last_name']));
             $gender = isset($_POST['gender']) ? $_POST['gender'] : "";
-            $DOB = date('Y-m-d',strtotime($_POST['date_of_birth']));
+            $DOB = date('Y-m-d', strtotime($_POST['date_of_birth']));
             $flag = 1;
             $massage = "";
-            $year= substr($DOB,0,4);
+            $year = substr($DOB, 0, 4);
             $nowyear = date("Y");
 
 
@@ -101,19 +101,19 @@
                 $massage = $massage . "Please fill up your information.  ";
             }
 
-            
+
             $query = "SELECT username FROM customer WHERE username = ?";
             $stmt = $con->prepare($query);
             $stmt->bindParam(1, $username);
             $stmt->execute();
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            if(is_array($row)){
+            if (is_array($row)) {
                 $flag = 0;
                 $massage = $massage . "Username already taken.  ";
             }
 
 
-            if(!filter_var($email,FILTER_VALIDATE_EMAIL)){
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $flag = 0;
                 $massage = $massage . "Invalid email format.  ";
             }
@@ -123,7 +123,7 @@
             $stmt->bindParam(1, $email);
             $stmt->execute();
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            if(is_array($row)){
+            if (is_array($row)) {
                 $flag = 0;
                 $massage = $massage . "Email already taken.  ";
             }
@@ -136,15 +136,15 @@
                 $flag = 0;
                 $massage = $massage . "Password must be same.  ";
             }
-            
+
             $myage = $nowyear - $year;
 
-            if($myage < 18){
+            if ($myage < 18) {
                 $flag = 0;
                 $massage = $massage . "Must above or 18 years old.  ";
             }
 
-            
+
 
             if ($flag == 1) {
                 // insert query
